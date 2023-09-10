@@ -31,7 +31,6 @@ class MyCustomView @JvmOverloads constructor(
 
     private val audioPlayer = AudioPlayer()
     var myProperty by mutableStateOf("A string")
-
     init {
         context.withStyledAttributes(attrs, R.styleable.MyStyleable) {
             myProperty = getString(R.styleable.MyStyleable_myAttribute) ?: "Null"
