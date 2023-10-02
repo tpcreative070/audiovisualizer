@@ -40,7 +40,6 @@ class RecorderVisualizerView(context: Context?, attrs: AttributeSet?) : View(con
     // add the given amplitude to the amplitudes ArrayList
     fun addAmplitude(amplitude: Float) {
         amplitudes!!.add(amplitude) // add newest to the amplitudes ArrayList
-
         // if the power lines completely fill the VisualizerView
         if (amplitudes!!.size * LINE_WIDTH * 2 >= width) {
             amplitudes!!.removeAt(0) // remove oldest power value

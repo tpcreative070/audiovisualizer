@@ -1,22 +1,22 @@
 package me.tpcreative.audiovisualizer
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import android.Manifest
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.MainThread
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import me.tpcreative.audiovisualizer.databinding.ActivityMainBinding
 import me.tpcreative.audiovisualizer.visualizer.EnumEvent
 import me.tpcreative.audiovisualizer.visualizer.Helper
 import me.tpcreative.audiovisualizer.visualizer.MyCustomView
 import me.tpcreative.audiovisualizer.visualizer.VisualizerData
 import me.tpcreative.audiovisualizer.visualizer.showToast
+import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var soundLevel : MyCustomView
     private  val handle = Handler(Looper.getMainLooper())
+    private val ampList : MutableList<Float> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +53,8 @@ class MainActivity : AppCompatActivity() {
         }
         try {
             Helper.helperInstance.service?.stopRecord {
-                soundLevel.onStop?.invoke()
                 isStart = false
+                //soundLevel.onStop?.invoke()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -74,8 +75,8 @@ class MainActivity : AppCompatActivity() {
 
         Helper.helperInstance.service?.onMaxAmplitude = {
             runOnUiThread {
-                //val mData= VisualizerData()
-                //soundLevel.onData?.invoke(mData)
+                val mData= VisualizerData(maxAmplitude = it/50)
+                soundLevel.onData?.invoke(mData)
             }
         }
 
@@ -83,6 +84,7 @@ class MainActivity : AppCompatActivity() {
             when(it){
                 EnumEvent.START ->{
                     isStart = true
+                    //soundLevel.onStart?.invoke()
                 }
                 EnumEvent.START_RECORDING_FAILED ->{
                     Toast.makeText(this, "record failed", Toast.LENGTH_LONG).show()

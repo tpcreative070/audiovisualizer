@@ -4,6 +4,8 @@ import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.PathNode
+import com.google.gson.Gson
+import me.tpcreative.audiovisualizer.toLogConsole
 import me.tpcreative.audiovisualizer.visualizer.VisualizerComputer.Companion.SAMPLING_INTERVAL
 import kotlin.math.*
 
@@ -64,6 +66,8 @@ fun computeStackedBarPoints(
     val stackHeight = stackHeightWithPadding - verticalPadding
 
     val nodes = mutableListOf<Point>()
+
+    "resampled ${Gson().toJson(resampled)}".toLogConsole()
     resampled.forEachIndexed { index, d ->
         //val barHeight by animateFloatAsState(targetValue = viewportHeight * (1 - (d / 128f)))
         //val stackCount  = (maxStackCount * (d / 128f)).roundToInt()

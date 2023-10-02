@@ -30,7 +30,7 @@ fun StackedBarEqualizer(
         val padding = LocalDensity.current.run { 1.dp.toPx() }
 
         val nodes = computeStackedBarPoints(
-            resampled = data.resample(barCount),
+            resampled = data.res(),
             viewportWidth = viewportWidth,
             viewportHeight = viewportHeight,
             barCount = barCount,
