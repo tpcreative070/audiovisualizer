@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.media.audiofx.Visualizer
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import me.tpcreative.audiovisualizer.toLogConsole
 
 class VisualizerComputer {
 
@@ -64,6 +65,7 @@ class VisualizerComputer {
                 //Timber.e("Wave - samplingRate=$samplingRate, waveform=${waveform.joinToString()} thread=" + Thread.currentThread())
                 val durationSinceLastData = lastDataTimestamp?.let { now - it } ?: 0
                 if (lastDataTimestamp == null || durationSinceLastData > SAMPLING_INTERVAL) {
+                    "samplingRate $samplingRate".toLogConsole()
                     onData(
                         VisualizerData(
                             rawWaveform = waveform.clone(),

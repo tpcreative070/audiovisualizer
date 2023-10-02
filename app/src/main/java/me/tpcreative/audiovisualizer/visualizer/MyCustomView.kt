@@ -31,6 +31,9 @@ class MyCustomView @JvmOverloads constructor(
 
     private val audioPlayer = AudioPlayer()
     var myProperty by mutableStateOf("A string")
+    var onData : ((VisualizerData)->Unit)? = null
+    var onStart : (() -> Unit)? = null
+    var onStop : (()->Unit)? = null
     init {
         context.withStyledAttributes(attrs, R.styleable.MyStyleable) {
             myProperty = getString(R.styleable.MyStyleable_myAttribute) ?: "Null"
@@ -41,9 +44,23 @@ class MyCustomView @JvmOverloads constructor(
     @Composable
     override fun Content() {
         val visualizerData = remember { mutableStateOf(VisualizerData()) }
-        audioPlayer.play(context.assets, "instru.mp3", visualizerData)
+
+        onData = {
+            visualizerData.value = it
+        }
+
+        onStop = {
+            audioPlayer.stop()
+        }
+
+        onStart = {
+            audioPlayer.play(context.assets, "instru.mp3", visualizerData)
+        }
+
         MyComposable(title = myProperty,visualizerData)
     }
+
+
 }
 
 @Composable
